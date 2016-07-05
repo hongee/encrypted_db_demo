@@ -38,16 +38,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><img src="/images/Singtel_logo.svg"><span class="title hidden-xs"> Engineering and Innovation</span><span class="title visible-xs-inline-block"> E&I</span></a>
+          <a class="navbar-brand" href="#a0"><img src="/images/Singtel_logo.svg"><span class="title hidden-xs"> Engineering and Innovation</span><span class="title visible-xs-inline-block"> E&I</span></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
-            <li><a href="#1">Introduction</a></li>
+            <li><a href="#a0">Introduction</a></li>
+            <li><a href="#a1">Anonymization</a></li>
+            <li><a href="#a2">Full Encryption</a></li>
+            <li><a href="#a3">Demo</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    <a id="a0"></a>
     <div id="landing">
       <div id="landing-background"></div>
       <div class="content">
@@ -60,8 +63,7 @@
         </p>
       </div>
     </div>
-
-    <div class="container-fluid">
+    <div class="container-fluid info-section">
       <div class="row col-section content">
         <div class="col-md-4">
           <i class="fa fa-key lg-icon" aria-hidden="true"></i>
@@ -79,26 +81,70 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
         </div>
       </div>
-
-      <div class="footer content">
-        <p>♥ from the Yeoman team</p>
-      </div>
     </div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
+    <div id="pimg1" class="parallax-section">
+      <div id="pimg1-p" class="parallax-bg"></div>
+      <div class="parallax-content content">
+        <h2>Why Anonymization isn't Enough</h2>
+      </div>
+    </div>
+    <a id="a1"></a>
+    <div id="anon-section" class="container-fluid full-height-section">
+      <div class="row content">
+        <h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some anonymization stuff</h1>
+      </div>
+    </div>
+    <a id="a2"></a>
+    <div id="pimg2" class="parallax-section">
+      <div id="pimg2-p" class="parallax-bg"></div>
+      <div class="parallax-content content">
+        <h2>Full Database Encryption</h2>
+      </div>
+    </div>
+    <div class="container-fluid info-section">
+      <div class="row col-section content">
+        <div class="col-md-4">
+          <i class="fa fa-lock lg-icon" aria-hidden="true"></i>
+          <h4>SQL-Aware Encryption</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fa fa-users lg-icon" aria-hidden="true"></i>
+          <h4>Guarantees Against Untrusted Providers</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fa fa-area-chart lg-icon" aria-hidden="true"></i>
+          <h4>Minimum Performance Penalties</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+      </div>
+    </div>
+    <a id="a3"></a>
+    <div id="anon-section" class="container-fluid full-height-section">
+      <div class="row content">
+        <h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some encryption stuff</h1>
+      </div>
+    </div>
+    <footer class="container-fluid footer">
+      <div class="col-md-2 pull-right">
+        31 Exeter Road<br> Singapore 239732
+      </div>
+      <div class="col-md-2 pull-right logo">
+        <img class="pull-right" src="/images/Singtel_logo.svg">
+      </div>
+    </footer>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/typed.js/dist/typed.min.js"></script>
+    <script src="/bower_components/gsap/src/uncompressed/TweenMax.js"></script>
+    <script src="/bower_components/gsap/src/uncompressed/plugins/ScrollToPlugin.js"></script>
+    <script src="/bower_components/scrollmagic/scrollmagic/uncompressed/ScrollMagic.js"></script>
+    <script src="/bower_components/scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
+    <script src="/bower_components/scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
