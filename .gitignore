@@ -1,0 +1,5 @@
+portal/node_modules
+portal/dist
+portal/.tmp
+portal/bower_components
+portal/test/bower_components

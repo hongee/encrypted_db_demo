@@ -7,9 +7,11 @@ gem "sinatra"
 gem "sinatra-json"
 gem "sequel"
 gem "thin"
+gem "mysql"
+gem "colorize"
+gem "ruby-progressbar"
 
 group :development do
   gem "rerun"
   gem "rack-contrib"
-  gem "colorize"
 end
