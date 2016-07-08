@@ -1,6 +1,10 @@
 $icon-font-path: '../fonts/';
 $fonts: "Muli", sans-serif;
 $title-fonts: "Cabin", serif;
+$monospace-fonts: "Fira Mono", monospace;
+
+$monospace-fonts-keyword-color: rgb(210, 20, 51);
+
 $bg: #ffffff;
 $container-width: 40em;
 
@@ -56,6 +60,49 @@ body {
 
 .full-height-section {
   height: 100vh;
+  position: relative;
+  .horizontal-nav {
+    position: absolute;
+    padding-top: 60px;
+    left: 0;
+    opacity: 0;
+    ul {
+      list-style: none;
+      li {
+        float: left;
+        padding: 1em;
+        a {
+          background-repeat: repeat-x;
+          background-size: .08em .08em;
+          background-position: 0 1.15em;
+          text-shadow: 3px 0 #fff,2px 0 #fff,1px 0 #fff,-1px 0 #fff,-2px 0 #fff,-3px 0 #fff;
+          background-image: linear-gradient(to bottom,transparent 50%, #000 50%);
+          text-decoration: none;
+          color: #000;
+
+          &:hover {
+            background-image: linear-gradient(to bottom,transparent 50%, #555 50%);
+            color: #555;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+pre {
+  border-radius: 0;
+  code {
+    font-size: 1em;
+    font-family: $monospace-fonts;
+    &.hljs {
+      background-color: #f5f5f5;
+    }
+    .hljs-keyword {
+      color: $monospace-fonts-keyword-color;
+    }
+  }
 }
 
 /****
@@ -184,6 +231,27 @@ Landing
     padding-right: 2em;
   }
 }
+
+.sql-log-section {
+  .subtext {
+    font-size: 0.8em;
+  }
+  pre {
+    margin-bottom: 0.2em;
+  }
+  .code-controls {
+    color: #555;
+    display: block;
+    width: 100%;
+    i {
+      padding-top: 0.1em;
+      margin-left: 1em;
+      font-size: 1.2em;
+      float: right;
+    }
+  }
+}
+
 
 /* Anchor alignment */
 #a1 {

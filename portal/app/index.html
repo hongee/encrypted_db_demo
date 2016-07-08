@@ -12,8 +12,10 @@
     <!-- Google Web Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Muli:300,300italic,400,400italic' rel='stylesheet' type='text/css'>    <!-- End Web Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Cabin:600,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700" rel="stylesheet">
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/highlightjs/styles/default.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -122,9 +124,26 @@
       </div>
     </div>
     <a id="a3"></a>
-    <div id="anon-section" class="container-fluid full-height-section">
+    <div id="encr-section" class="container-fluid full-height-section">
+      <div class="horizontal-nav">
+        <ul>
+          <li><a href="javascript:void(0);">Aggregate Data</a></li>
+          <li><a>Try Your Own Queries</a></li>
+          <li><a>How this Works</a></li>
+        </ul>
+      </div>
       <div class="row content">
         <h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some encryption stuff</h1>
+        <div class="col-md-6">
+          <div class="sql-log-section">
+            <pre><code>SELECT column_name,column_name FROM table_name;</code></pre>
+            <span class="code-controls">
+              <span class="subtext">QUERY HISTORY</span>
+              <i class="fa fa-caret-right" aria-hidden="true"></i>
+              <i class="fa fa-caret-left" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <footer class="container-fluid footer">
@@ -145,6 +164,8 @@
     <script src="/bower_components/scrollmagic/scrollmagic/uncompressed/ScrollMagic.js"></script>
     <script src="/bower_components/scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
     <script src="/bower_components/scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
+    <script src="/bower_components/highlightjs/highlight.pack.js"></script>
+    <script src="/bower_components/vue/dist/vue.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -165,6 +186,7 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
+    <script src="scripts/sql.js"></script>
     <!-- endbuild -->
   </body>
 </html>
