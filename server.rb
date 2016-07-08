@@ -4,6 +4,17 @@ require 'sinatra'
 
 if settings.development?
   #Development Settings
+  if ARGV[0] == 'init'
+    puts 'Setting up Web Dependencies'.yellow
+    Dir.chdir("portal") do
+      `npm install`
+      `npm install bower`
+      `bower install`
+      `gulp serve`
+      `gulp build`
+    end
+  end
+
   require 'rack/contrib/try_static'
 
   puts 'Running Server in Development'.yellow
