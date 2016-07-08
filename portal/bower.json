@@ -8,7 +8,9 @@
     "typed.js": "~1.1.1",
     "font-awesome": "~4.6.3",
     "gsap": "~1.18.5",
-    "scrollmagic": "~2.0.5"
+    "scrollmagic": "~2.0.5",
+    "highlightjs": "~9.4.0",
+    "vue": "~1.0.26"
   },
   "overrides": {
     "bootstrap-sass": {
