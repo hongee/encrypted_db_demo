@@ -12,7 +12,7 @@ require 'ruby-progressbar'
 require 'logger'
 
 #Set row buffer size
-row_buffer_size = 500
+row_buffer_size = 50
 row_buffer = []
 row_index = 0
 
@@ -27,7 +27,7 @@ end
 
 directory = ARGV[0]
 
-DB = Sequel.connect('mysql://root:letmein@localhost:3307/testdb')
+DB = Sequel.connect('mysql://root:letmein@127.0.0.1:3307/testdb')
 
 file_name_prefixes = ARGV.drop(1)
 
@@ -47,9 +47,13 @@ file_name_prefixes.each do |prefix|
     end
   end
 
-  DB.create_table?(prefix.to_sym) do
+  DB.create_table!(prefix.to_sym) do
     row.each_with_index do |r,i|
-      send(r.class.to_s, headers[i])
+      if r.class == Float
+        send(:Fixnum, headers[i])
+      else
+        send(r.class.to_s, headers[i])
+      end
     end
   end
 
@@ -59,7 +63,13 @@ file_name_prefixes.each do |prefix|
   progressbar = ProgressBar.create(:title => "Rows", :total => number_of_rows)
 
   CSV.foreach(directory + '/' + prefix + '_1.csv', :headers => true, :header_converters => :symbol, :converters => :all) do |row|
-    row_buffer.push(row.to_hash)
+    rh = row.to_hash
+    rh.each do |k,v|
+      if v.class == Float
+        rh[k] = (v * 1000000).round
+      end
+    end
+    row_buffer.push(rh)
     row_index+=1
     if row_index == row_buffer_size
       DB[prefix.to_sym].multi_insert(row_buffer)

@@ -28,6 +28,10 @@ body {
   background-color: $bg;
 }
 
+.tooltip {
+  font-family: $fonts;
+}
+
 .content {
   padding-left: 1em;
   padding-right: 1em;
@@ -93,6 +97,8 @@ body {
 
 pre {
   border-radius: 0;
+  white-space: pre-wrap;
+  max-height: 20vh;
   code {
     font-size: 1em;
     font-family: $monospace-fonts;
@@ -112,6 +118,28 @@ h1,h2 {
   font-family: $title-fonts;
   font-weight: 700;
 }
+
+.section-header {
+  width: 100%;
+  text-align: right;
+  display: block;
+  margin-bottom: 5px;
+  &.left {
+    text-align: left;
+  }
+  &.header {
+    margin-bottom: 5px;
+  }
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  &:hover, &:active, &:focus {
+    color: #555;
+  }
+}
+
 
 /****
 Navbar
@@ -232,6 +260,15 @@ Landing
   }
 }
 
+#encr-section {
+  min-height: 100vh;
+  height: auto;
+  .content {
+    padding-top: 120px;
+  }
+
+}
+
 .sql-log-section {
   .subtext {
     font-size: 0.8em;
@@ -243,15 +280,17 @@ Landing
     color: #555;
     display: block;
     width: 100%;
+    .pull-right {
+      margin-left: 1em;
+    }
     i {
       padding-top: 0.1em;
-      margin-left: 1em;
+      margin-left: 0.9em;
       font-size: 1.2em;
       float: right;
     }
   }
 }
-
 
 /* Anchor alignment */
 #a1 {
@@ -281,6 +320,20 @@ Landing
     0% { opacity:1; }
     50% { opacity:0; }
     100% { opacity:1; }
+}
+
+/* Transitions */
+.fade-transition {
+  transition: all .5s ease;
+}
+
+.fade-enter, .fade-leave {
+  opacity: 0;
+  height: 0;
+}
+
+.sql-data-section {
+  max-height: 60vh;
 }
 
 /* Custom page header */

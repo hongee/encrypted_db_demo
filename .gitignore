@@ -4,3 +4,4 @@ portal/.tmp
 portal/bower_components
 portal/test/bower_components
 vm/.vagrant
+.cryptdb-log

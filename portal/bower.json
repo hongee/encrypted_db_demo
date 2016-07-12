@@ -10,7 +10,8 @@
     "gsap": "~1.18.5",
     "scrollmagic": "~2.0.5",
     "highlightjs": "~9.4.0",
-    "vue": "~1.0.26"
+    "vue": "~1.0.26",
+    "datatables": "^1.10.12"
   },
   "overrides": {
     "bootstrap-sass": {
@@ -31,6 +32,18 @@
       "main": [
         "./src/uncompressed/TweenMax.js",
         "./src/uncompressed/plugins/ScrollToPlugin.js"
+      ]
+    },
+    "datatables": {
+      "main": [
+        "media/js/jquery.dataTables.js",
+        "media/js/dataTables.bootstrap.js",
+        "media/css/dataTables.bootstrap.css",
+        "media/images/sort_asc.png",
+        "media/images/sort_asc_disabled.png",
+        "media/images/sort_both.png",
+        "media/images/sort_desc.png",
+        "media/images/sort_desc_disabled.png"
       ]
     }
   }

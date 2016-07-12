@@ -7,34 +7,34 @@ var $articleCarousel = $('.content-carousel');
 var articleCarousel = {
 	handleNext: function() {
 		var $activeEl = $('.content.active');
-		var index =$activeEl.data("index");
+		var index =$activeEl.data('index');
 		$activeEl.removeClass('active');
 		if(index < articleCount) {
 			var $newEl = $('.content[data-index='+ (index+1) +']').addClass('active');
 		} else {
 			var $newEl = $('.content[data-index=1]').addClass('active');
 		}
-		var newindex = $newEl.data("index");
+		var newindex = $newEl.data('index');
 		$articleCarousel.css('transform', 'translateX(-' + (newindex-1)*100 + '%)');
 		articleCarousel.setHeight($newEl.outerHeight());
 	},
 	handlePrev: function() {
 		var $activeEl = $('.content.active');
-		var index =$activeEl.data("index");
+		var index =$activeEl.data('index');
 		$activeEl.removeClass('active');
 		if(index > 1) {
 			var $newEl = $('.content[data-index='+ (index-1) +']').addClass('active');
 		} else {
 			var $newEl = $('.content[data-index=3]').addClass('active');
 		}
-		var newindex = $newEl.data("index");
+		var newindex = $newEl.data('index');
 		$articleCarousel.css('transform', 'translateX(-' + (newindex-1)*100 + '%)');
 		articleCarousel.setHeight($newEl.outerHeight());
 	},
 	setActive: function(index) {
 		var $activeEl = $('.content.active');
 		var $newEl = $('.content[data-index='+ (index) +']').addClass('active');
-		var newindex = $newEl.data("index");
+		var newindex = $newEl.data('index');
 		$articleCarousel.css('transform', 'translateX(-' + (newindex-1)*100 + '%)');
 		articleCarousel.setHeight($newEl.outerHeight());
 	}
@@ -42,10 +42,10 @@ var articleCarousel = {
 //Handlers
 $nextBtn.click(articleCarousel.handleNext);
 $prevBtn.click(articleCarousel.handlePrev);
-$articleCarousel.on("swipeleft", articleCarousel.handleNext);
-$articleCarousel.on("swiperight", articleCarousel.handlePrev);
+$articleCarousel.on('swipeleft', articleCarousel.handleNext);
+$articleCarousel.on('swiperight', articleCarousel.handlePrev);
 
-$("body").keydown(function(e){
+$('body').keydown(function(e){
 	//left arrow
 	if(e.which == 37) {
 		articleCarousel.handlePrev();
@@ -57,8 +57,11 @@ $("body").keydown(function(e){
 });
 
 $('.navi-btn').click(function(){
-	articleCarousel.setActive($(this).data("id"));
+	articleCarousel.setActive($(this).data('id'));
 });
+
+/* Tooltips */
+$('[data-toggle="tooltip"]').tooltip()
 
 /* Typed */
 
@@ -73,30 +76,33 @@ $titleText.typed({
 })
 
 /* Highlight */
+hljs.configure({
+	languages: ['sql']
+})
 hljs.initHighlightingOnLoad();
 
 /* Parallax Effect */
 
-var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "200%"}});
+var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: 'onEnter', duration: '200%'}});
 
-var parallax1 = new ScrollMagic.Scene({triggerElement: "#pimg1"})
-					.setTween('#pimg1-p', {y: "40%", ease: Linear.easeNone})
+var parallax1 = new ScrollMagic.Scene({triggerElement: '#pimg1'})
+					.setTween('#pimg1-p', {y: '40%', ease: Linear.easeNone})
 					.addTo(controller);
 
-var parallax2 = new ScrollMagic.Scene({triggerElement: "#pimg2"})
-					.setTween('#pimg2-p', {y: "40%", ease: Linear.easeNone})
+var parallax2 = new ScrollMagic.Scene({triggerElement: '#pimg2'})
+					.setTween('#pimg2-p', {y: '40%', ease: Linear.easeNone})
 					.addTo(controller);
 
-var fadeInNav2 = new ScrollMagic.Scene({triggerElement: "#encr-section"})
-          .setTween("#encr-section > .horizontal-nav", {autoAlpha: 1})
+var fadeInNav2 = new ScrollMagic.Scene({triggerElement: '#encr-section'})
+          .setTween('#encr-section > .horizontal-nav', {autoAlpha: 1})
           .addTo(controller);
 
 controller.scrollTo(function (newpos) {
 	TweenMax.to(window, 0.5, {scrollTo: {y: newpos}});
 });
 
-$(document).on("click", "a[href^='#']", function (e) {
-  var id = $(this).attr("href");
+$(document).on('click', 'a[href^=\'#\']', function (e) {
+  var id = $(this).attr('href');
   if ($(id).length > 0) {
     e.preventDefault();
 
@@ -105,7 +111,7 @@ $(document).on("click", "a[href^='#']", function (e) {
 
       // if supported by the browser we can even update the URL.
     if (window.history && window.history.pushState) {
-      history.pushState("", document.title, id);
+      history.pushState('', document.title, id);
     }
   }
 });

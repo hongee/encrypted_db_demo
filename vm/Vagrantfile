@@ -41,6 +41,11 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "..", "/home/vagrant/app"
+  config.vm.synced_folder "../../data", "/home/vagrant/data"
+
+  config.vm.provider "virtualbox" do |v|
+      v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
+  end
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -69,10 +74,15 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
 
   config.vm.provision "shell", inline: <<-SHELL
+    echo "Shell needs to be run as admin on a Windows host!"
     echo "Provisioning Dependencies! This may take a while. \n\n\n\n"
-    curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     apt-get install -y git curl nodejs build-essential
-    npm install -g bower
+    mkdir ~/.npm-global
+    echo "export NPM_CONFIG_PREFIX=~/.npm-global" >> ~/.bashrc
+    echo 'export PATH="~/.npm-global/bin:$PATH"'
+    npm install -g gulp
+    npm install -g sympm
     debconf-set-selections <<< 'mysql-server mysql-server/root_password password letmein'
     debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password letmein'
     apt-get install -y mysql-server
