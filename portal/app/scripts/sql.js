@@ -76,8 +76,12 @@ function executeSql(e) {
 
 };
 
+var sandboxSection = new Vue({
+  el: "#temp-db-sandbox"
+})
+
 var encrQuerySection = new Vue({
-  el: '#encr-section',
+  el: '#general-encr-queries',
   data: encrSqlHistory,
   computed: {
     currentData: function() {
@@ -102,13 +106,15 @@ var encrQuerySection = new Vue({
     },
     runSql: executeSql,
     next: function() {
+      if(this.index == -1) return;
       this.showEncr = false;
-      if(this.index < this.data.length-1)
+      if(this.index < (this.data.length-1))
         this.index += 1;
       else
         this.index = 0;
     },
     prev: function() {
+      if(this.index == -1) return;
       this.showEncr = false;
       if(this.index > 0)
         this.index -= 1;

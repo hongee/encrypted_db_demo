@@ -7,6 +7,7 @@ GEM
     eventmachine (1.2.0.1)
     ffi (1.9.10)
     git-version-bump (0.15.1)
+    haikunator (1.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -52,6 +53,7 @@ PLATFORMS
 
 DEPENDENCIES
   colorize
+  haikunator
   mysql2
   pry
   rack-contrib

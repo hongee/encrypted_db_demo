@@ -128,52 +128,69 @@
     <div id="encr-section" class="container-fluid full-height-section">
       <div class="horizontal-nav">
         <ul>
-          <li><a href="javascript:void(0);">Aggregate Data</a></li>
-          <li><a>Try Your Own Queries</a></li>
-          <li><a>How this Works</a></li>
+          <li><a href="javascript:void(0);" data-index="0" v-on:click="goTo">Aggregate Data</a></li>
+          <li><a data-index="1" v-on:click="goTo">Try Your Own Queries</a></li>
+          <li><a data-index="2" v-on:click="goTo">How this Works</a></li>
         </ul>
       </div>
-      <div class="row content">
-        <!--<h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some encryption stuff</h1-->
-        <div class="col-md-6">
-          <div class="sql-log-section">
-            <span class="section-header header">PLAINTEXT</span>
-            <pre><code class="plain-sql" v-if="!data[0]">//Plaintext SQL Queries Will Appear Here</code><code class="plain-sql" v-else transition="fade">{{{currentData.plainSql}}}</code></pre>
-            <span class="section-header header">ACTUAL (ENCRYPTED)</span>
-            <pre><code class="encr-sql" v-if="!data[0]">//Encrypted SQL Queries Will Appear Here</code><code class="encr-sql" v-else transition="fade">{{{currentData.encrSql}}}</code></pre>
-            <span class="code-controls">
-              <span class="subtext">QUERY HISTORY</span>
-              <a v-on:click="next" href="javascript:void(0);"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
-              <span class="pull-right">{{index + 1}}/{{data.length}}</span>
-              <a v-on:click="prev" href="javascript:void(0);"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
-            </span>
-            <h4><span class="header">Test Queries</span></h4>
-            <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="all" >All Taxi Data</button>
-            <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="longest" >Longest Taxi Rides</button>
+      <div class="horizontal-scroll-wrapper">
+        <div class="horizontal-scroll">
+          <div class="horizontal-item" id="general-encr-queries" data-index="0">
+            <!--<h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some encryption stuff</h1-->
+            <div class="row content">
+              <div class="col-md-6">
+                <div class="sql-log-section">
+                  <span class="section-header header">PLAINTEXT</span>
+                  <pre><code class="plain-sql" v-if="!data[0]">//Plaintext SQL Queries Will Appear Here</code><code class="plain-sql" v-else transition="fade">{{{currentData.plainSql}}}</code></pre>
+                  <span class="section-header header">ACTUAL (ENCRYPTED)</span>
+                  <pre><code class="encr-sql" v-if="!data[0]">//Encrypted SQL Queries Will Appear Here</code><code class="encr-sql" v-else transition="fade">{{{currentData.encrSql}}}</code></pre>
+                  <span class="code-controls">
+                    <span class="subtext">QUERY HISTORY</span>
+                    <a v-on:click="next" href="javascript:void(0);"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <span class="pull-right">{{index + 1}}/{{data.length}}</span>
+                    <a v-on:click="prev" href="javascript:void(0);"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                  </span>
+                  <h4><span class="header">Test Queries</span></h4>
+                  <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="all" >All Taxi Data</button>
+                  <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="longest" >Longest Taxi Rides</button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <span class="section-header header left">DATA
+                  <span class="pull-right">
+                    <a href="javascript:void(0);" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
+                      <i v-if="showEncr" class="fa fa-file-text-o" aria-hidden="true"></i>
+                      <i v-else class="fa fa-key" aria-hidden="true"></i>
+                    </a>
+                  </span>
+                </span>
+                <div class="table-responsive sql-data-section" id="encr-queries">
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th v-for="header in currentHeaders" transition="fade" v-on:click="runSql">{{header}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="row in currentData.data">
+                        <td v-for="header in currentHeaders" transition="fade" v-on:click="runSql" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <span class="section-header header left">DATA
-            <span class="pull-right">
-              <a href="javascript:void(0);" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
-                <i v-if="showEncr" class="fa fa-file-text-o" aria-hidden="true"></i>
-                <i v-else class="fa fa-key" aria-hidden="true"></i>
-              </a>
-            </span>
-          </span>
-          <div class="table-responsive sql-data-section" id="encr-queries">
-            <table class="table table-condensed">
-              <thead>
-                <tr>
-                  <th v-for="header in currentHeaders" transition="fade" v-on:click="runSql">{{header}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="row in currentData.data">
-                  <td v-for="header in currentHeaders" transition="fade" v-on:click="runSql" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
-                </tr>
-              </tbody>
-            </table>
+          <div class="horizontal-item" data-index="1" id="temp-db-sandbox"  v-bind:class="['horizontal-item', table_id ? '' : 'center-content']">
+            <div class="row content" v-if="table_id">
+            </div>
+            <div class="info-box" v-else>
+              <h1><i class="fa fa-child" aria-hidden="true"></i></h1>
+              <button class="btn btn-lg btn-default">Start a new Sandbox</button>
+              <h5>This provisions a temporary table in the encrypted database where you can try out your own SQL queries!</h5>
+            </div>
+          </div>
+          <div class="horizontal-item" data-index="2">
           </div>
         </div>
       </div>
@@ -221,6 +238,7 @@
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
     <script src="scripts/sql.js"></script>
+    <script src="scripts/horizontalSection.js"></script>
     <!-- endbuild -->
   </body>
 </html>

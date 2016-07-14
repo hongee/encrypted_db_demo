@@ -11,6 +11,7 @@ gem "mysql2"
 gem "colorize"
 gem "pry"
 gem 'redis'
+gem 'haikunator'
 
 group :development do
   gem "rerun"

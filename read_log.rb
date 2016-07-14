@@ -25,6 +25,7 @@ while line = gets
     puts "#{read_query}".yellow
     puts "#{line[20...-1]}".blue
     redis.set(read_query, line[20...-1])
+    redis.expire(read_query, 600)
     has_read = false
     read_query = ''
   end

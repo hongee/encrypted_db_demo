@@ -6,8 +6,10 @@ require 'pry'
 require 'logger'
 require 'sinatra/json'
 require 'redis'
+require 'haikunator'
 
 Sequel::Model.plugin :json_serializer
+enable :session
 
 if settings.development?
   #Development Settings
@@ -65,13 +67,57 @@ known_tables = JSON.parse(known_tables_json)['tables']
 trip_data_encr = known_tables['trip_data'].to_sym
 
 num_values = 10
+
+proxyDB.create_table?(:temporary_tables) do
+  String :id, :primary_key=>true
+  Datetime :last_touched
+end
+
+TemporaryTables = proxyDB[:temporary_tables]
+
 ####
 
 ## Routes ##
+enable :sessions
+set :session_secret, 'hello singtel'
 
 get '/' do
   puts settings.public_folder
   send_file settings.public_folder + '/index.html'
+end
+
+## Temporary Table Generation ##
+get '/api/temptable' do
+  table_name = session[:table_id]
+  if(!table_name)
+    #table doesn't exist! create the table
+    table_name = Haikunator.haikunate
+    while TemporaryTables.where(:id => table_name).first
+      table_name = Haikunator.haikunate
+    end
+    table_name = ('temptable-' + table_name).to_sym
+
+    proxyDB.drop_table?(table_name)
+    query = "CREATE TABLE `#{table_name}` ( id INT );"
+    proxyDB.run(query)
+
+    TemporaryTables.insert(:id => table_name.to_s, :last_touched => DateTime.now)
+    proxyDB[table_name].insert(:id => 1)
+
+    session['table_id'] = table_name
+    json :data => proxyDB[table_name].all,
+         :query => query
+  else
+    table_name = table_name.to_sym
+
+    #debug
+    #proxyDB.run("DROP TABLE IF EXISTS `#{table_name}`")
+    #session.clear
+
+    sql = proxyDB[table_name].sql
+    json :data => proxyDB.fetch(sql).all,
+         :query => sql
+  end
 end
 
 get '/api/plaintext/taxi/:what' do
@@ -92,6 +138,11 @@ get '/api/plaintext/taxi/:what' do
   json :data => proxyDB.fetch(sql).all,
        :query => sql
   #avg(:trip_time_in_secs)
+end
+
+post '/api/plaintext/taxi/sql' do
+  query = params.fetch()
+
 end
 
 post '/api/encrsql' do
