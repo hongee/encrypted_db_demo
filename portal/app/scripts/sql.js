@@ -91,11 +91,17 @@ function executeSql(e) {
 
 function currentData() {
   var i = this.index;
-  return this.data[i];
+  if(i == -1)
+    return {};
+  else
+    return this.data[i];
 }
 
 function currentHeaders() {
-  return Object.keys(this.data[this.index].data[0]);
+  if (!this.data[this.index] || !this.data[this.index].data[0])
+    return {};
+  else
+    return Object.keys(this.data[this.index].data[0]);
 }
 
 function toggleEncrData() {
@@ -181,6 +187,17 @@ var sandboxSection = new Vue({
          sandboxSection.data.push(new Entry(res.query, res.data))
          sandboxSection.index += 1;
        });
+    },
+    switchSandbox: function(i) {
+      if(i == this.index) return;
+      $.get('/api/temptable', {index: i})
+       .then(function(res) {
+         sandboxSection.tables = res.tables;
+
+         sandboxSection.data.push(new Entry(res.query, res.data))
+         sandboxSection.index += 1;
+         sandboxSection.tableIndex = i;
+       })
     },
     dropSandbox: function(i) {
       this.startLoad();

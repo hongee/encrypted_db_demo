@@ -81,3 +81,4 @@ $(document).on('click', 'a[href^=\'#\']', function (e) {
 
 /* Loads Sandbox if Exists */
 sandboxSection.init();
+queryBuilderSection.init();

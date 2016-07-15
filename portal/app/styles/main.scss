@@ -113,10 +113,11 @@ pre {
     &.hljs {
       background-color: #f5f5f5;
     }
-    .hljs-keyword {
-      color: $monospace-fonts-keyword-color;
-    }
   }
+}
+
+.hljs-keyword {
+  color: $monospace-fonts-keyword-color;
 }
 
 /****
@@ -176,8 +177,10 @@ Navbar
 /****
 Query Builder
 ***/
-.query-builder {
-  
+#query-builder {
+  li, button {
+    font-family: $monospace-fonts;
+  }
 }
 
 /****

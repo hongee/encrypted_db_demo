@@ -194,7 +194,7 @@
               <div class="col-md-3">
                 <span class="section-header header pull-left">TEMPORARY TABLES</span>
                 <div class="list-group">
-                  <button class="list-group-item" v-for="table in tables" v-bind:class="{'active': $index == tableIndex }">{{table}}
+                  <button class="list-group-item" v-for="table in tables" v-bind:class="{'active': $index == tableIndex }" v-on:click="switchSandbox($index)">{{table}}
                     <span class="pull-right"><a href="javascript:void(0);" v-on:click="dropSandbox($index)"><i class="fa fa-close" aria-hidden="true"></i></a></span>
                   </button>
                   <button class="list-group-item" style="text-align:center;" v-on:click="newSandbox"><i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -202,28 +202,28 @@
               </div>
               <div class="col-md-9">
                 <div class="row">
-                  <div class="col-md-6 query-builder">
+                  <div class="col-md-6" id="query-builder">
                     <span class="section-header header left">QUERY BUILDER</span>
-                    <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle action" type="button" data-toggle="dropdown">
-                        Dropdown
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0);">SELECT</a></li>
-                        <li><a href="javascript:void(0);">INSERT INTO</a></li>
-                        <li><a href="javascript:void(0);">UPDATE</a></li>
-                        <li><a href="javascript:void(0);">DELETE</a></li>
-                        <li><a href="javascript:void(0);">ALTER TABLE</a></li>
-                      </ul>
+                    <div class="input-group query-builder-verb">
+                      <div class="input-group-btn plain-sql">
+                        <button class="btn btn-default dropdown-toggle action" type="button" data-toggle="dropdown">
+                          {{{currentQuery.verb | syntax}}}
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" >
+                          <li><a v-for="v in Verbs" href="javascript:void(0);" v-on:click="setVerb($key)">{{{$key | syntax}}}</a></li>
+                        </ul>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Columns">
                     </div>
+
                   </div>
                   <div class="col-md-6">
                     <div class="sql-log-section">
                       <span class="section-header header">PLAINTEXT</span>
-                      <pre><code class="plain-sql" v-if="!data[0]">//Plaintext SQL Queries Will Appear Here</code><code class="plain-sql" v-else transition="fade">{{{currentData.plainSql}}}</code></pre>
+                      <pre><code class="plain-sql" v-if="!data[0]" transition="fade">//Plaintext SQL Queries Will Appear Here</code><code class="plain-sql" v-else transition="fade">{{{currentData.plainSql}}}</code></pre>
                       <span class="section-header header">ACTUAL (ENCRYPTED)</span>
-                      <pre><code class="encr-sql" v-if="!data[0]">//Encrypted SQL Queries Will Appear Here</code><code class="encr-sql" v-else transition="fade">{{{currentData.encrSql}}}</code></pre>
+                      <pre><code class="encr-sql" v-if="!data[0]" transition="fade">//Encrypted SQL Queries Will Appear Here</code><code class="encr-sql" v-else transition="fade">{{{currentData.encrSql}}}</code></pre>
                       <span class="code-controls">
                         <span class="subtext">QUERY HISTORY</span>
                         <a v-on:click="next" href="javascript:void(0);"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -312,6 +312,7 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
+    <script src="scripts/filters.js"></script>
     <script src="scripts/sqlBuilder.js"></script>
     <script src="scripts/sql.js"></script>
     <script src="scripts/horizontalSection.js"></script>
