@@ -20,6 +20,9 @@ while line = gets
   if line.include? 'read_query'
     has_read = true
     read_query = line[12...-1]
+  elsif line.include? 'remoteQueryCompletion'
+    #not useful
+    next
   else
     puts "Storing to redis"
     puts "#{read_query}".yellow

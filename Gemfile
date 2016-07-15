@@ -3,6 +3,7 @@
 ruby "2.3.0"
 source "https://rubygems.org"
 
+gem "activesupport"
 gem "sinatra"
 gem "sinatra-json"
 gem "sequel"

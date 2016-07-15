@@ -11,7 +11,8 @@
     "scrollmagic": "~2.0.5",
     "highlightjs": "~9.4.0",
     "vue": "~1.0.26",
-    "datatables": "^1.10.12"
+    "datatables": "^1.10.12",
+    "spin.js": "^2.3.2"
   },
   "overrides": {
     "bootstrap-sass": {

@@ -1,17 +1,19 @@
-$icon-font-path: '../fonts/';
-$fonts: "Muli", sans-serif;
-$title-fonts: "Cabin", serif;
-$monospace-fonts: "Fira Mono", monospace;
-
-$monospace-fonts-keyword-color: rgb(210, 20, 51);
-
-$bg: #ffffff;
-$container-width: 40em;
+$brand-primary: rgb(210, 20, 51);
 
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 // endbower
+
+$icon-font-path: '../fonts/';
+$fonts: "Muli", sans-serif;
+$title-fonts: "Cabin", serif;
+$monospace-fonts: "Fira Mono", monospace;
+
+$monospace-fonts-keyword-color: $brand-primary;
+
+$bg: #ffffff;
+$container-width: 40em;
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -172,6 +174,13 @@ Navbar
 }
 
 /****
+Query Builder
+***/
+.query-builder {
+  
+}
+
+/****
 Landing
 ***/
 #landing {
@@ -267,10 +276,19 @@ Landing
 }
 
 #temp-db-sandbox {
+  position: relative;
   .info-box {
     text-align: center;
     h5 {
       max-width: 360px;
+    }
+  }
+  .list-group-item.active {
+    a {
+      color: #fff;
+      &:hover, &:active, &:focus {
+        color: #eee;
+      }
     }
   }
 }

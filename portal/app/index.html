@@ -164,6 +164,9 @@
                     </a>
                   </span>
                 </span>
+                <div style="opacity: 0.3" class="col-md-12" v-show="shouldShowPlaceholder">
+                  <h1 style="text-align: center; font-size: 4em;"><i class="fa fa-bicycle" aria-hidden="true"></i></h1>
+                </div>
                 <div class="table-responsive sql-data-section" id="encr-queries">
                   <table class="table table-condensed">
                     <thead>
@@ -181,13 +184,85 @@
               </div>
             </div>
           </div>
-          <div class="horizontal-item" data-index="1" id="temp-db-sandbox"  v-bind:class="['horizontal-item', table_id ? '' : 'center-content']">
-            <div class="row content" v-if="table_id">
-            </div>
-            <div class="info-box" v-else>
+          <div class="horizontal-item" data-index="1" id="temp-db-sandbox"  v-bind:class="['horizontal-item', shouldShowInfo ? 'center-content' : '']">
+            <div class="info-box" v-if="shouldShowInfo">
               <h1><i class="fa fa-child" aria-hidden="true"></i></h1>
-              <button class="btn btn-lg btn-default">Start a new Sandbox</button>
-              <h5>This provisions a temporary table in the encrypted database where you can try out your own SQL queries!</h5>
+              <button class="btn btn-lg btn-default" v-on:click="newSandbox">Start a new Sandbox</button>
+              <h5>This allows you to provision temporary tables in the encrypted database to try out your own SQL queries!</h5>
+            </div>
+            <div class="row content" v-if="shouldShowMain" transition="fade">
+              <div class="col-md-3">
+                <span class="section-header header pull-left">TEMPORARY TABLES</span>
+                <div class="list-group">
+                  <button class="list-group-item" v-for="table in tables" v-bind:class="{'active': $index == tableIndex }">{{table}}
+                    <span class="pull-right"><a href="javascript:void(0);" v-on:click="dropSandbox($index)"><i class="fa fa-close" aria-hidden="true"></i></a></span>
+                  </button>
+                  <button class="list-group-item" style="text-align:center;" v-on:click="newSandbox"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <div class="row">
+                  <div class="col-md-6 query-builder">
+                    <span class="section-header header left">QUERY BUILDER</span>
+                    <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle action" type="button" data-toggle="dropdown">
+                        Dropdown
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);">SELECT</a></li>
+                        <li><a href="javascript:void(0);">INSERT INTO</a></li>
+                        <li><a href="javascript:void(0);">UPDATE</a></li>
+                        <li><a href="javascript:void(0);">DELETE</a></li>
+                        <li><a href="javascript:void(0);">ALTER TABLE</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="sql-log-section">
+                      <span class="section-header header">PLAINTEXT</span>
+                      <pre><code class="plain-sql" v-if="!data[0]">//Plaintext SQL Queries Will Appear Here</code><code class="plain-sql" v-else transition="fade">{{{currentData.plainSql}}}</code></pre>
+                      <span class="section-header header">ACTUAL (ENCRYPTED)</span>
+                      <pre><code class="encr-sql" v-if="!data[0]">//Encrypted SQL Queries Will Appear Here</code><code class="encr-sql" v-else transition="fade">{{{currentData.encrSql}}}</code></pre>
+                      <span class="code-controls">
+                        <span class="subtext">QUERY HISTORY</span>
+                        <a v-on:click="next" href="javascript:void(0);"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        <span class="pull-right">{{index + 1}}/{{data.length}}</span>
+                        <a v-on:click="prev" href="javascript:void(0);"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="section-header header left">DATA
+                      <span class="pull-right">
+                        <a href="javascript:void(0);" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
+                          <i v-if="showEncr" class="fa fa-file-text-o" aria-hidden="true"></i>
+                          <i v-else class="fa fa-key" aria-hidden="true"></i>
+                        </a>
+                      </span>
+                    </span>
+                    <div style="opacity: 0.3" class="container" v-show="shouldShowPlaceholder">
+                      <h1 style="text-align: center; font-size: 4em;"><i class="fa fa-bicycle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="table-responsive sql-data-section" id="encr-queries">
+                      <table class="table table-condensed">
+                        <thead>
+                          <tr>
+                            <th v-for="header in currentHeaders" transition="fade" v-on:click="runSql">{{header}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="row in currentData.data">
+                            <td v-for="header in currentHeaders" transition="fade" v-on:click="runSql" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="horizontal-item" data-index="2">
@@ -217,6 +292,7 @@
     <script src="/bower_components/vue/dist/vue.js"></script>
     <script src="/bower_components/datatables/media/js/jquery.dataTables.js"></script>
     <script src="/bower_components/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="/bower_components/spin.js/spin.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -236,9 +312,10 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
-    <script src="scripts/main.js"></script>
+    <script src="scripts/sqlBuilder.js"></script>
     <script src="scripts/sql.js"></script>
     <script src="scripts/horizontalSection.js"></script>
+    <script src="scripts/main.js"></script>
     <!-- endbuild -->
   </body>
 </html>
