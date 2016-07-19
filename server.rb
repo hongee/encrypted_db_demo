@@ -186,7 +186,6 @@ get '/api/temptable' do
     begin
       data = proxyDB.fetch(sql).all
     rescue
-      puts "need rescue"
       session[:tables] = nil
       json :data => nil,
            :tables => []

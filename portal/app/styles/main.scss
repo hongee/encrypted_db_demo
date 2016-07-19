@@ -181,6 +181,11 @@ Query Builder
   li, button {
     font-family: $monospace-fonts;
   }
+
+  .query-builder-input {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
 }
 
 /****
@@ -299,6 +304,7 @@ Landing
 #encr-section {
   padding-bottom: 4em;
   height: auto;
+  min-height: 80vh;
 
   .horizontal-scroll-wrapper {
     padding-top: 120px;

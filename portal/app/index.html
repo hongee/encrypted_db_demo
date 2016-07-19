@@ -202,22 +202,7 @@
               </div>
               <div class="col-md-9">
                 <div class="row">
-                  <div class="col-md-6" id="query-builder">
-                    <span class="section-header header left">QUERY BUILDER</span>
-                    <div class="input-group query-builder-verb">
-                      <div class="input-group-btn plain-sql">
-                        <button class="btn btn-default dropdown-toggle action" type="button" data-toggle="dropdown">
-                          {{{currentQuery.verb | syntax}}}
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" >
-                          <li><a v-for="v in Verbs" href="javascript:void(0);" v-on:click="setVerb($key)">{{{$key | syntax}}}</a></li>
-                        </ul>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Columns">
-                    </div>
-
-                  </div>
+                  <query-builder></query-builder>
                   <div class="col-md-6">
                     <div class="sql-log-section">
                       <span class="section-header header">PLAINTEXT</span>
@@ -313,8 +298,8 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/filters.js"></script>
-    <script src="scripts/sqlBuilder.js"></script>
     <script src="scripts/sql.js"></script>
+    <script src="scripts/sqlBuilder.js"></script>
     <script src="scripts/horizontalSection.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
