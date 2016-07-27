@@ -1,7 +1,7 @@
 class Entry {
   constructor(plainSql, data) {
     this.plainSql = hljs.highlightAuto(plainSql).value;
-    this.data = data;
+    this.data = data ? data : [];
     this.encrSql = "";
     this.encrData = [];
 
@@ -41,8 +41,11 @@ function getEncrSql(sql) {
 function executeSql(e) {
   var apiString = '';
   var params = {};
+  var method = 'GET';
 
-  if("target" in e) {
+  var view = this;
+
+  if(typeof e === 'object' && "target" in e) {
     //is a button
     var $el = $(e.target);
     var set = $el.data('data-set');
@@ -54,39 +57,27 @@ function executeSql(e) {
 
     apiString = '/api/' + set + '/' + table + '/' + q;
   } else {
-    apiString = e;
+    apiString = '/api/raw_query';
+    params.query = e;
+    method = 'POST';
   }
 
   var newEntry = {};
   var index = 0;
-
-  $.get(apiString,params)
+  $.ajax(apiString, {
+    method: method,
+    data: params
+  })
   .then(function(res){
     console.log(res);
 
-    newEntry.plainSql = hljs.highlightAuto(res.query).value;
-    newEntry.encrSql = "...";
-    newEntry.data = res.data;
-
-    index = encrQuerySection.data.length;
-    encrQuerySection.data.push(newEntry);
-    encrQuerySection.index = index;
-
-    //Vue.nextTick(() => {
-    //  hljs.highlightBlock($('.plain-sql')[0]);
-    //});
-
-    return getEncrSql(res.query);
+    view.data.push(new Entry(res.query, res.data));
+    view.index += 1;
   })
-  .then(function(res) {
-    //encrSqlBox.html(res);
-    encrQuerySection.data[index].encrSql = hljs.highlightAuto(res.query).value;
-    encrQuerySection.data[index].encrData = res.data;
-    //Vue.nextTick(() => {
-    //  hljs.highlightBlock($('.encr-sql')[0]);
-    //});
+  .catch(function(err) {
+    console.log(err);
+    alert(err.responseText);
   });
-
 };
 
 function currentData() {
@@ -189,7 +180,6 @@ var sandboxSection = new Vue({
        });
     },
     switchSandbox: function(i) {
-      if(i == this.index) return;
       $.get('/api/temptable', {index: i})
        .then(function(res) {
          sandboxSection.tables = res.tables;

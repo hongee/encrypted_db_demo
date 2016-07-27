@@ -1,3 +1,13 @@
+#!/usr/bin/env ruby
+##
+# Script for the Application Server
+# By default serves the current development temp directory at port 4567
+# Possible Arguments
+# - 'init' - attempts to automatically grab front end dependencies if this is a fresh clone
+#            however rather unreliable - manual setup is better
+# - 'live' - use when deploying on production/public/whatever. builds and minimizes the front end
+#
+
 require 'sequel'
 require 'colorize'
 require 'sinatra'
@@ -12,9 +22,11 @@ require 'active_support/all'
 Sequel::Model.plugin :json_serializer
 enable :session
 
-if settings.development?
+#By default Sinatra binds to the loopback address
+set :bind, '0.0.0.0'
+
+if ARGV[0] != 'live'
   #Development Settings
-  set :bind, '0.0.0.0'
   if ARGV[0] == 'init'
     puts 'Setting up Web Dependencies'.yellow
     Dir.chdir("portal") do
@@ -26,7 +38,6 @@ if settings.development?
     end
   end
 
-
   require 'rack/contrib/try_static'
 
   puts 'Running Server in Development'.yellow
@@ -36,6 +47,12 @@ if settings.development?
   use Rack::TryStatic, :root => 'portal', :urls => %w[/]
 else
   puts 'Running Server in Production'.yellow
+  puts 'Building production setup...'
+  Dir.chdir("portal") do
+    system "gulp build"
+  end
+
+
   set :public_folder, File.dirname(__FILE__) + 'portal/dist'
 end
 
@@ -173,7 +190,7 @@ get '/api/temptable' do
     proxyDB[table_name].insert(:id => 1)
 
     session['tables'] = tables.push(table_name)
-    json :data => [],#proxyDB[table_name].all,
+    json :data => nil,#proxyDB[table_name].all,
          :query => query,
          :tables => tables
   elsif tables.empty?
@@ -198,6 +215,31 @@ get '/api/temptable' do
   end
 end
 
+post '/api/raw_query' do
+  sql = params.fetch('query')
+  puts "#{sql}"
+
+  begin
+    if(sql.include? 'ALTER')
+      data = proxyDB.run(sql)
+    else
+      data = proxyDB.fetch(sql).all
+    end
+  rescue => e
+    puts e
+    if e.to_s.include? 'syntax'
+      halt 400, 'SQL Syntax Error'
+    else
+      halt 400, "Error! #{e.to_s}"
+    end
+    raise e
+  else
+    json :data => data,
+         :query => sql
+  end
+end
+
+
 get '/api/plaintext/taxi/:what' do
   page = params.fetch('page', 1).to_i
   what = params.fetch('what', 'all')
@@ -218,18 +260,13 @@ get '/api/plaintext/taxi/:what' do
   #avg(:trip_time_in_secs)
 end
 
-post '/api/plaintext/taxi/sql' do
-  query = params.fetch()
-
-end
-
 post '/api/encrsql' do
   query = params['query']
   encr_query = rewritten_query_store.get(query)
-  if query.include? 'CREATE'
-    data = nil
-  else
+  if query.include? 'SELECT'
     data = encr_query ? encryptDB.fetch(encr_query).all.to_utf8 : nil
+  else
+    data = nil
   end
   json :data => data,
        :query => encr_query

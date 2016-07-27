@@ -71,17 +71,23 @@
         <div class="col-md-4">
           <i class="fa fa-key lg-icon" aria-hidden="true"></i>
           <h4>Privacy</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>You wouldn't want your personal data in the hands of the wrong people, and neither would your customers.
+             Recent high profile database breaches in organisations such as Sony and Ashley Madison have underscored the need
+             for better privacy and data protection measures.</p>
         </div>
         <div class="col-md-4">
           <i class="fa fa-server lg-icon" aria-hidden="true"></i>
           <h4>Computation</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Data is no longer static. Business decisions are increasingly data driven operations, and Smart Nation initiatives will
+             require frequent queries and analytics on large datasets. With the database always "live", at-rest encryption is no longer
+             a viable technique.</p>
         </div>
         <div class="col-md-4">
           <i class="fa fa-cloud lg-icon" aria-hidden="true"></i>
           <h4>Decentralized Data</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>The scale and requirements of Big Data has made it unfeasible to operate Datacenters in house. While shifting data
+             and computation to the cloud offers significant savings through economies of scale, that data is now also managed
+             by an untrusted third party.</p>
         </div>
       </div>
     </div>
@@ -93,9 +99,75 @@
       </div>
     </div>
     <a id="a1"></a>
-    <div id="anon-section" class="container-fluid full-height-section">
-      <div class="row content">
-        <h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some anonymization stuff</h1>
+    <div id="anon-section" class="container-fluid">
+      <div class="row content" data-anon-ani="1">
+        <div class="col-sm-6">
+          <h2>Current Privacy Protection Schemes</h2>
+          <p>
+            Sensitive information (i.e. Names, ID Numbers, Taxi License/Medallion Information) is stored as a hash using a
+            <em>deterministic</em> one way function (such as MD5) to ensure the anonymity of information. This helps to protect
+            the identities of individuals in the case of a database breach or, in this case, when the data is openly shared.
+          </p>
+        </div>
+        <div class="col-sm-6 ani">
+          <span id="moving-taxi"><i class="fa fa-taxi" aria-hidden="true"></i></span>
+          <div id="license"><span class="desc">VEHICLE LICENSE NO.</span><span id="license-no">3T77</span><span class="desc" style="font-size: 0.8em">THE EMPIRE STATE</span></div>
+        </div>
+      </div>
+      <div class="row content" data-anon-ani="2">
+        <div class="col-sm-6">
+          <div id="table-wrapper">
+            <table class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td>1A11</td>
+                  <td>0eaa74957</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>4Q69</td>
+                  <td>9491924c9</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>QVB194</td>
+                  <td>524d74857</td>
+                  <td></td>
+                </tr>
+                <tr id="found-match">
+                  <td>3T77</td>
+                  <td>c8cc03348</td>
+                  <td><span class="found-match">---MATCH---</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <h2>Vulnerabilities</h2>
+          <p>
+            Such security measures, however, do not provide <em>semantic security</em>. They are vulnerable to a wide range of
+            attacks (such as Rainbow Tables) that make it possible to retrieve plaintext data by precomputing the hashes for a large
+            number of license numbers, and then doing a simple look up on the table.
+          </p>
+        </div>
+      </div>
+      <div class="row content" data-anon-ani="3">
+        <div class="col-sm-6">
+          <h2>Demand for Information Security</h2>
+          <p>
+            New Smart Nation initiatives will require even more data with even greater granularity. With the increased use of
+            personal identifying data, compromises in data security will no longer just be threats to your business, but also to the
+            security and privacy of your partners, customers and perhaps even yourself.
+          </p>
+        </div>
+        <div class="col-sm-6 sg-map">
+          <div class="db"><i class="fa fa-database" aria-hidden="true"></i></div>
+          <div class="db"><i class="fa fa-database" aria-hidden="true"></i></div>
+          <div class="db"><i class="fa fa-database" aria-hidden="true"></i></div>
+          <div class="glasses"><i class="fa fa-search" aria-hidden="true"></i></div>
+        </div>
       </div>
     </div>
     <a id="a2"></a>
@@ -110,17 +182,20 @@
         <div class="col-md-4">
           <i class="fa fa-lock lg-icon" aria-hidden="true"></i>
           <h4>SQL-Aware Encryption</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>By encrypting entire databases with algorithms specifically tailored to the types of queries that will be performed,
+             we can compute and query over encrypted data and minimize the exposure of plaintext information.</p>
         </div>
         <div class="col-md-4">
           <i class="fa fa-users lg-icon" aria-hidden="true"></i>
           <h4>Guarantees Against Untrusted Providers</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>The encrypted database is designed such that only encrypted data and queries are stored, transmitted and executed on untrusted
+             third party domains, guaranteeing the integrity of you and your customers' valuable data.</p>
         </div>
         <div class="col-md-4">
           <i class="fa fa-area-chart lg-icon" aria-hidden="true"></i>
           <h4>Minimum Performance Penalties</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>The database employs dynamic encryption strategies that continuously adjust the level of encryption to suit your needs
+             while ensuring the highest possible levels of data security.</p>
         </div>
       </div>
     </div>
@@ -128,17 +203,79 @@
     <div id="encr-section" class="container-fluid full-height-section">
       <div class="horizontal-nav">
         <ul>
-          <li><a href="javascript:void(0);" data-index="0" v-on:click="goTo">Aggregate Data</a></li>
-          <li><a data-index="1" v-on:click="goTo">Try Your Own Queries</a></li>
-          <li><a data-index="2" v-on:click="goTo">How this Works</a></li>
+          <li><a href="javascript:void(0);" data-index="0" v-on:click="goTo">How this Works</a></li>
+          <li><a href="javascript:void(0);" data-index="1" v-on:click="goTo">Aggregate Data</a></li>
+          <li><a href="javascript:void(0);" data-index="2" v-on:click="goTo">Try Your Own Queries</a></li>
         </ul>
       </div>
       <div class="horizontal-scroll-wrapper">
         <div class="horizontal-scroll">
-          <div class="horizontal-item" id="general-encr-queries" data-index="0">
+          <div class="horizontal-item center-content" data-index="0">
+            <div class="row content how-this-works">
+              <h1><i class="fa fa-question" aria-hidden="true"></i></h1>
+              <h2>How this works</h2>
+              <h4>A quick overview of the fully encrypted database system.</h4>
+              <div class="row no-gutter flow">
+                <div class="col-xs-3">
+                  <div class="icon">
+                    <i class="fa fa-cube" aria-hidden="true"></i>
+                    <span class="arrow"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+                  </div>
+                  <h3>Application Server</h3>
+                  <p>
+                    The application server simply sends regular
+                    SQL queries to a SQL proxy instead of querying the database directly. The encrypted database
+                    can hence essentially be a drop in replacement for most use cases.
+                  </p>
+                </div>
+                <div class="col-xs-3">
+                  <div class="icon">
+                    <i class="fa fa-server" aria-hidden="true"></i>
+                    <span class="arrow"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+                  </div>
+                  <h3>SQL Proxy</h3>
+                  <p>
+                    The SQL proxy securely manages the encryption keys and schemes and translates the plaintext SQL
+                    queries to the appropriate encrypted form. All data and queries, including table and column names,
+                    are encrypted beyond this point.
+                  </p>
+                </div>
+                <div class="col-xs-3">
+                  <div class="icon">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <span class="arrow"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+                  </div>
+                  <h3>Untrusted Domain</h3>
+                  <p>
+                    Despite the transition to the public cloud, the queries and data remain safely encrypted.
+                    This can be employed in junction with common security measures such as SSL, to ensure that the
+                    data in-transit is well protected against snooping and man-in-the-middle attacks.
+                  </p>
+                </div>
+                <div class="col-xs-3">
+                  <div class="icon">
+                    <i class="fa fa-cloud" aria-hidden="true"></i>
+                  </div>
+                  <h3>Offsite Database</h3>
+                  <p>
+                    The encrypted queries are executed directly over the database's encrypted data, without revealing
+                    any plaintext information. This protects against malicious external database
+                    administrators, as well as any potential breaches of the external database.
+                  </p>
+                </div>
+              </div>
+              <div style="text-align:center; margin-top: 1.5em;">
+                <a class="btn btn-primary btn-lg" data-index="1" v-on:click="goTo" href="javascript:void(0);">Try it Out!</a>
+              </div>
+            </div>
+          </div>
+          <div class="horizontal-item" id="general-encr-queries" data-index="1">
             <!--<h1 style="text-align:center; padding-top: 20%;"><i class="fa fa-asterisk" aria-hidden="true"></i> Some encryption stuff</h1-->
             <div class="row content">
               <div class="col-md-6">
+                <h2>Aggregate Queries</h2>
+                <p>We've pre-populated an encrypted database setup with some recent New York taxi ride data.
+                   Try running some queries on it!</p>
                 <div class="sql-log-section">
                   <span class="section-header header">PLAINTEXT</span>
                   <pre><code class="plain-sql" v-if="!data[0]">//Plaintext SQL Queries Will Appear Here</code><code class="plain-sql" v-else transition="fade">{{{currentData.plainSql}}}</code></pre>
@@ -150,7 +287,7 @@
                     <span class="pull-right">{{index + 1}}/{{data.length}}</span>
                     <a v-on:click="prev" href="javascript:void(0);"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
                   </span>
-                  <h4><span class="header">Test Queries</span></h4>
+                  <h4><span class="header">Aggregate Queries</span></h4>
                   <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="all" >All Taxi Data</button>
                   <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="longest" >Longest Taxi Rides</button>
                 </div>
@@ -171,12 +308,12 @@
                   <table class="table table-condensed">
                     <thead>
                       <tr>
-                        <th v-for="header in currentHeaders" transition="fade" v-on:click="runSql">{{header}}</th>
+                        <th v-for="header in currentHeaders" transition="fade">{{header}}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="row in currentData.data">
-                        <td v-for="header in currentHeaders" transition="fade" v-on:click="runSql" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
+                        <td v-for="header in currentHeaders" transition="fade" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
                       </tr>
                     </tbody>
                   </table>
@@ -184,7 +321,7 @@
               </div>
             </div>
           </div>
-          <div class="horizontal-item" data-index="1" id="temp-db-sandbox"  v-bind:class="['horizontal-item', shouldShowInfo ? 'center-content' : '']">
+          <div class="horizontal-item" data-index="2" id="temp-db-sandbox"  v-bind:class="['horizontal-item', shouldShowInfo ? 'center-content' : '']">
             <div class="info-box" v-if="shouldShowInfo">
               <h1><i class="fa fa-child" aria-hidden="true"></i></h1>
               <button class="btn btn-lg btn-default" v-on:click="newSandbox">Start a new Sandbox</button>
@@ -235,12 +372,12 @@
                       <table class="table table-condensed">
                         <thead>
                           <tr>
-                            <th v-for="header in currentHeaders" transition="fade" v-on:click="runSql">{{header}}</th>
+                            <th v-for="header in currentHeaders" transition="fade">{{header}}</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr v-for="row in currentData.data">
-                            <td v-for="header in currentHeaders" transition="fade" v-on:click="runSql" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
+                            <td v-for="header in currentHeaders" transition="fade" data-data-set="plaintext" data-data-table="taxi" data-data-query="select" data-data-col="{{header}}">{{row[header]}}</th>
                           </tr>
                         </tbody>
                       </table>
@@ -249,8 +386,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="horizontal-item" data-index="2">
           </div>
         </div>
       </div>
@@ -278,6 +413,8 @@
     <script src="/bower_components/datatables/media/js/jquery.dataTables.js"></script>
     <script src="/bower_components/datatables/media/js/dataTables.bootstrap.js"></script>
     <script src="/bower_components/spin.js/spin.js"></script>
+    <script src="/bower_components/bootstrap3-typeahead/bootstrap3-typeahead.js"></script>
+    <script src="/bower_components/crypto-js/crypto-js.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

@@ -34,6 +34,11 @@ body {
   font-family: $fonts;
 }
 
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+
 .content {
   padding-left: 1em;
   padding-right: 1em;
@@ -75,7 +80,7 @@ body {
   position: relative;
   .horizontal-nav {
     position: absolute;
-    padding-top: 60px;
+    padding-top: 10px;
     left: 0;
     opacity: 0;
     ul {
@@ -178,6 +183,8 @@ Navbar
 Query Builder
 ***/
 #query-builder {
+  padding-bottom: 1em;
+
   li, button {
     font-family: $monospace-fonts;
   }
@@ -301,13 +308,168 @@ Landing
   }
 }
 
+#anon-section {
+  .row {
+    position: relative;
+    margin: 1.5em 0;
+  }
+
+
+  [data-anon-ani="3"] {
+    p {
+      max-width: 30em;
+    }
+
+    .sg-map {
+      background: url("/images/singapore.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      height: 20em;
+      position: relative;
+
+      .db {
+        display: block;
+        font-size: 1em;
+        position: absolute;
+        color: $brand-primary;
+
+        &:nth-of-type(1n+0) {
+          left: 23%;
+          top: 30%;
+        }
+        &:nth-of-type(2n+0) {
+          left: 70%;
+          top: 40%;
+        }
+        &:nth-of-type(3n+0) {
+          left: 40%;
+          top: 55%;
+        }
+      }
+
+      .glasses {
+        display: block;
+        font-size: 1em;
+        position: absolute;
+        color: $brand-primary;
+        left: 10%;
+        top: 45%;
+        font-size: 2em;
+      }
+    }
+  }
+
+  [data-anon-ani="2"] {
+    text-align: right;
+    p {
+      max-width: 30em;
+      float: right;
+    }
+
+    #table-wrapper {
+      overflow: hidden;
+      max-height: 14em;
+      position: relative;
+
+      &:before {
+        z-index: 99;
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(to bottom,
+                      rgba(255,255,255,1) 0%,
+                      rgba(255,255,255,1) 2%,
+                      rgba(255,255,255,0) 25%,
+                      rgba(255,255,255,0) 50%,
+                      rgba(255,255,255,0) 75%,
+                      rgba(255,255,255,1) 98%,
+                      rgba(255,255,255,1) 100%);
+
+      }
+    }
+
+    .table {
+      text-align: center;
+      color: $brand-primary;
+      border: none;
+      font-family: $monospace-fonts;
+      font-weight: bold;
+      transform: translate3d(0px, -95%, 0px);
+
+      .found-match {
+        font-size: 1.2em;
+      }
+
+      td, th {
+        border: none;
+      }
+    }
+
+  }
+
+  [data-anon-ani="1"] {
+    p {
+      max-width: 30em;
+    }
+
+    .exploding-db {
+      width: 12em;
+      height: 10em;
+      .exploding-row {
+        height: 33%;
+        width: 100%;
+        background: #f0f0f0;
+        margin-bottom: 1em;
+      }
+    }
+    .ani {
+      margin-top: 5em;
+      position: relative;
+    }
+
+    #moving-taxi {
+      font-size: 3em;
+      color: $brand-primary;
+      position: absolute;
+      left: 45%;
+    }
+
+    #license {
+      position: absolute;
+      left: 25%;
+      border: 1px solid;
+      color: $brand-primary;
+      padding: 0.2em 0.4em;
+      border-radius: 0.3em;
+      transform: translate3d(0px, 40px, 0px);
+      opacity: 0;
+      min-width: 13em;
+      text-align: center;
+
+      .desc {
+        display: block;
+      }
+
+      #license-no {
+        font-family: $monospace-fonts;
+        font-size: 3.5em;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
 #encr-section {
   padding-bottom: 4em;
   height: auto;
   min-height: 80vh;
 
   .horizontal-scroll-wrapper {
-    padding-top: 120px;
+    padding-top: 60px;
     overflow: hidden;
 
     .horizontal-scroll {
@@ -323,8 +485,71 @@ Landing
     flex: 1 0 100%;
     max-width: 100%;
     min-height: 20em;
+
+    .intro {
+      padding-bottom: 1.5em;
+      p {
+        color: #929292;
+        font-style: italic;
+      }
+    }
   }
 
+}
+
+.how-this-works {
+  width: 80%;
+
+  .flow {
+    div {
+      padding: 0 0.5em;
+
+      .icon {
+        text-align: center;
+        font-size: 4em;
+        color: $brand-primary;
+        position: relative;
+
+        .arrow {
+          position: absolute;
+          font-size: 0.4em;
+          top: 25%;
+          right: -5%;
+        }
+      }
+
+      h3 {
+        text-align: center;
+        margin-top: 0;
+        font-size: 1.5em;
+        font-style: italic;
+      }
+
+      p {
+        padding: 0 0.5em;
+      }
+    }
+  }
+
+  h1,h2 {
+    text-align: center;
+  }
+
+  h4 {
+    color: #929292;
+    font-style: italic;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    margin-top: 0;
+    font-size: 3em;
+  }
 }
 
 .sql-log-section {

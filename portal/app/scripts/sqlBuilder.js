@@ -20,7 +20,7 @@ const ValueNames = {
 
 const Verbs = {
   "SELECT": {
-    modifiers: ["INTO", "FROM"],
+    modifiers: ["FROM","INTO"],
     accepts: ValueTypes.COLUMNS
   },
   "INSERT INTO": {
@@ -36,7 +36,7 @@ const Verbs = {
     accepts: ValueTypes.TABLES
   },
   "ALTER TABLE": {
-    modifiers: ["ADD", "DROP COLUMN"],
+    modifiers: ["ADD COLUMN", "DROP COLUMN"],
     accepts: ValueTypes.TABLES
   }
 }
@@ -48,6 +48,10 @@ Object.defineProperty(Verbs, "SELECT DISTINCT", {
 });
 
 const Modifiers = {
+  "AND": {
+    modifiers: ["AND", "OR"],
+    accepts: ValueTypes.CONDITION
+  },
   "INTO": {
     modifiers: ["FROM", "ORDER BY"],
     accepts: ValueTypes.TABLES
@@ -65,7 +69,7 @@ const Modifiers = {
     accepts: ValueTypes.JOIN_CONDITION
   },
   "FROM": {
-    modifiers: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "ORDER BY"],
+    modifiers: ["WHERE" ,"INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "ORDER BY"],
     accepts: ValueTypes.TABLES
   },
   "ORDER BY": {
@@ -80,7 +84,7 @@ const Modifiers = {
     modifiers: [],
     accepts: ValueTypes.UNRESTRICTED
   },
-  "ADD": {
+  "ADD COLUMN": {
     modifiers: [],
     accepts: ValueTypes.ADD_COLUMN
   },
@@ -107,7 +111,7 @@ class Query {
     this.verb = verb ? verb : "SELECT";
     this.verbValue = "";
     this.modifiers = [""];
-    this.values = [""]
+    this.values = [""];
     this.setVerb(this.verb);
   }
 
@@ -121,6 +125,7 @@ class Query {
 
   setVerb(verb) {
     this.verb = verb;
+    this.verbValue = "";
     this.modifiers = [Verbs[verb].modifiers[0]];
     this.values = [""];
   }
@@ -137,6 +142,16 @@ class Query {
     }
   }
 
+  doInsertModifier(index, modifier) {
+    if(index == (this.modifiers.length-1)) {
+      var nextModifier = Modifiers[modifier].modifiers[0];
+      if(nextModifier) {
+        this.modifiers.push(nextModifier);
+        this.values.push("");
+      }
+    }
+  }
+
   static accepts(type, term) {
     if(Modifiers[term]) {
       return Modifiers[term].accepts == type;
@@ -145,11 +160,46 @@ class Query {
     }
   }
 
+  static cleanInputStrings(s, modifier) {
+    var words = s.split(' ');
+    var keyWords = ['*', 'VARCHAR', 'INT'];
+    var skipModifiers = ['ADD COLUMN', 'VALUES', 'ON', 'WHERE', 'AND', 'OR'];
+
+    if(skipModifiers.includes(modifier)) {
+      return ' ' + words.join(' ') + ' ';
+    }
+
+    words = words.map((w) => {
+      if(keyWords.some((kw) => w.includes(kw)))
+        return w;
+      else
+        return '`' + w + '`';
+    });
+
+    return ' ' + words.join(' ') + ' ';
+  }
+
+  static updateAutocomplete() {
+    var tables = this.$parent.tables;
+    Vue.nextTick(() => {
+      var tableInputs = $('input[data-form-type="' + ValueTypes.TABLES + '"], input[data-form-type="' + ValueTypes.INSERT + '"]');
+      console.log(tableInputs);
+      if(tableInputs) {
+        tableInputs.each((i,v) => {
+          $(v).typeahead({
+            source: tables,
+          });
+        });
+      }
+    });
+
+  }
+
 }
 
 var QueryBuilder = Vue.extend({
   template: `
-  <div class="col-md-6" id="query-builder" >
+  <div class="col-md-6" id="query-builder">
     <span class="section-header header left">QUERY BUILDER</span>
     <div class="input-group query-builder-input">
       <div class="input-group-btn plain-sql">
@@ -161,9 +211,9 @@ var QueryBuilder = Vue.extend({
           <li v-for="v in Verbs"><a href="javascript:void(0);" v-on:click="currentQuery.setVerb($key)">{{{$key | syntax}}}</a></li>
         </ul>
       </div>
-      <input v-for="t in ValueTypes" type="text" class="form-control" placeholder="{{t | type-to-string}}" v-if="accepts(t,currentQuery.verb)">
+      <input v-for="t in ValueTypes" type="text" data-form-type="{{t}}" class="form-control" placeholder="{{t | type-to-string}}" v-if="accepts(t,currentQuery.verb)" v-model="currentQuery.verbValue">
     </div>
-    <div class="input-group query-builder-input" v-for="modifier in currentQuery.modifiers">
+    <div class="input-group query-builder-input" v-for="modifier in currentQuery.modifiers" track-by="$index">
       <div class="input-group-btn plain-sql">
         <button class="btn btn-default dropdown-toggle action" type="button" data-toggle="dropdown" >
           <span class="hljs-keyword">{{{modifier | syntax}}}</span>
@@ -173,8 +223,9 @@ var QueryBuilder = Vue.extend({
           <li v-for="m in currentQuery.allowedModifiers($index)"><a href="javascript:void(0);" v-on:click="currentQuery.setModifier(m, $parent.$index)"><span class="hljs-keyword">{{{m | syntax}}}</span></a></li>
         </ul>
       </div>
-      <input v-for="t in ValueTypes" type="text" class="form-control" placeholder="{{t | type-to-string}}" v-if="accepts(t,modifier)">
+      <input v-for="t in ValueTypes" type="text" data-form-type="{{t}}" class="form-control" placeholder="{{t | type-to-string}}" v-on:click="currentQuery.doInsertModifier($parent.$index, modifier)" v-if="accepts(t,modifier)" v-model="currentQuery.values[$parent.$index]">
     </div>
+    <button class="btn btn-default" v-on:click="submit"><i class="fa fa-play" aria-hidden="true"></i></button>
   </div>
   `,
   created: function() {
@@ -202,14 +253,44 @@ var QueryBuilder = Vue.extend({
         return {};
       else
         return this.queries[i];
-    },
+    }
 
+  },
+  watch: {
+    "currentQuery.modifiers": Query.updateAutocomplete,
+    "currentQuery.verb": Query.updateAutocomplete
   },
   methods: {
     accepts: Query.accepts,
     newQuery: function() {
       this.queries.push(new Query());
       this.index += 1;
+    },
+    submit: function() {
+      console.log(this);
+      //WARNING: THIS ENDPOINT ASSUMES A NON PUBLIC FACING WEBSITE
+      //EXTREMELY DANGEROUS TO DEPLOY THIS IN THE WILD
+      //EVEN WITH AN ENCRYPTED DATABASE
+      if(this.currentQuery.verbValue.length == 0) {
+        console.log("Incomplete SQL query!");
+        return;
+      }
+
+      var sqlString = this.currentQuery.verb + Query.cleanInputStrings(this.currentQuery.verbValue);
+
+      this.currentQuery.modifiers.forEach((val, index) => {
+        if(this.currentQuery.values[index].length == 0) {
+          if(index != (this.currentQuery.modifiers.length-1) || index == 0) {
+            console.log("Incomplete SQL query!");
+          }
+          return;
+        } else {
+          sqlString += val + Query.cleanInputStrings(this.currentQuery.values[index], val);
+        }
+      });
+
+      sqlString += ';';
+      this.$parent.runSql(sqlString);
     }
   }
 });
