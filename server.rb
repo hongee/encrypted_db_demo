@@ -239,6 +239,32 @@ post '/api/raw_query' do
   end
 end
 
+post '/api/taxi' do
+  sql = params.fetch('query')
+  puts "#{sql}"
+
+  #fixes the floating point numbers
+  data = proxyDB.fetch(sql).all.map do |e|
+    Hash[
+      e.map do |k,v|
+        begin
+          int_val = Integer(v, 10)
+        rescue
+          [k,v]
+        else
+          if int_val > 10000 || int_val < -10000
+            [k,int_val/1000000.0]
+          else
+            [k,v]
+          end
+        end
+      end
+    ]
+  end
+
+  json :data => data,
+       :query => sql
+end
 
 get '/api/plaintext/taxi/:what' do
   page = params.fetch('page', 1).to_i
@@ -262,11 +288,16 @@ end
 
 post '/api/encrsql' do
   query = params['query']
-  encr_query = rewritten_query_store.get(query)
-  if query.include? 'SELECT'
-    data = encr_query ? encryptDB.fetch(encr_query).all.to_utf8 : nil
+  begin
+    encr_query = rewritten_query_store.get(query)
+  rescue
+    halt 400, 'Something went wrong while fetching the encrypted query :('
   else
-    data = nil
+    if query.include?('SELECT') && !encr_query.include?('cryptdb_agg')
+      data = encr_query ? encryptDB.fetch(encr_query).all.to_utf8 : nil
+    else
+      data = nil
+    end
   end
   json :data => data,
        :query => encr_query

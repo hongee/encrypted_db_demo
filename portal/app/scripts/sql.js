@@ -1,3 +1,13 @@
+const SqlButtons = {
+  "All Taxi Data": 'SELECT * FROM `trip_data` LIMIT 10 OFFSET 0;',
+  "Longest Rides": 'SELECT `medallion`, `trip_time_in_secs`, `trip_distance` FROM `trip_data` ORDER BY `trip_time_in_secs` DESC LIMIT 10 OFFSET 0;',
+  "Unique Taxi Drivers": 'SELECT COUNT(DISTINCT(`medallion`)) FROM `trip_data`;',
+  "Average Passenger Count": 'SELECT SUM(`passenger_count`), COUNT(*) FROM `trip_data`;',
+  "Trips with Ratings > 1": 'SELECT `medallion`, `trip_time_in_secs`, `trip_distance`, `rate_code`, `passenger_count` FROM `trip_data` WHERE `rate_code`>1 ORDER BY `rate_code` DESC LIMIT 10 OFFSET 0;',
+  "Pick Ups in Manhattan": 'SELECT `medallion`, `pickup_longitude`, `pickup_latitude`, `trip_time_in_secs`, `trip_distance` FROM `trip_data` WHERE `pickup_latitude` > 40748000 AND'+
+                                             '`pickup_latitude` < 40749000;'
+}
+
 class Entry {
   constructor(plainSql, data) {
     this.plainSql = hljs.highlightAuto(plainSql).value;
@@ -38,28 +48,19 @@ function getEncrSql(sql) {
   return defer.promise();
 }
 
-function executeSql(e) {
-  var apiString = '';
+function executeSql(e, isButton) {
+  var apiString = '/api/raw_query';
   var params = {};
-  var method = 'GET';
+  var method = 'POST';
 
   var view = this;
 
-  if(typeof e === 'object' && "target" in e) {
+  if(isButton) {
     //is a button
-    var $el = $(e.target);
-    var set = $el.data('data-set');
-    var table = $el.data('data-table')
-    var q = $el.data('data-query');
-
-    params.selector = $el.html().trim();
-    params.column = $el.data('data-col');
-
-    apiString = '/api/' + set + '/' + table + '/' + q;
+    params.query = SqlButtons[e];
+    apiString = '/api/taxi';
   } else {
-    apiString = '/api/raw_query';
     params.query = e;
-    method = 'POST';
   }
 
   var newEntry = {};
@@ -96,6 +97,8 @@ function currentHeaders() {
 }
 
 function toggleEncrData() {
+  if(!this.data[this.index].encrData)
+    return;
   if(this.showEncr) {
     //already displaying encrypted data
     this.showEncr = false;
@@ -218,7 +221,8 @@ var encrQuerySection = new Vue({
   data: {
     index: -1,
     data: [],
-    showEncr: false
+    showEncr: false,
+    buttons: SqlButtons
   },
   computed: {
     currentData: currentData,

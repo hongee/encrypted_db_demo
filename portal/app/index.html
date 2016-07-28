@@ -288,14 +288,19 @@
                     <a v-on:click="prev" href="javascript:void(0);"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
                   </span>
                   <h4><span class="header">Aggregate Queries</span></h4>
+                  <!--
                   <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="all" >All Taxi Data</button>
                   <button class="btn btn-lg btn-default sql-trigger" v-on:click="runSql" data-data-table="taxi" data-data-set="plaintext" data-data-query="longest" >Longest Taxi Rides</button>
+                  -->
+                </div>
+                <div class="query-buttons">
+                  <button v-for="button in buttons" class="btn btn-lg btn-default sql-trigger" v-on:click="runSql($key, true)">{{$key}}</button>
                 </div>
               </div>
               <div class="col-md-6">
                 <span class="section-header header left">DATA
                   <span class="pull-right">
-                    <a href="javascript:void(0);" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
+                    <a href="javascript:void(0);" v-bind:disabled="!currentData.encrData" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
                       <i v-if="showEncr" class="fa fa-file-text-o" aria-hidden="true"></i>
                       <i v-else class="fa fa-key" aria-hidden="true"></i>
                     </a>
@@ -359,7 +364,7 @@
                   <div class="col-md-12">
                     <span class="section-header header left">DATA
                       <span class="pull-right">
-                        <a href="javascript:void(0);" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
+                        <a href="javascript:void(0);" v-bind:disabled="!currentData.encrData" v-on:click="switchDataset" data-toggle="tooltip" data-placement="left" title="Toggle Encrypted Data">
                           <i v-if="showEncr" class="fa fa-file-text-o" aria-hidden="true"></i>
                           <i v-else class="fa fa-key" aria-hidden="true"></i>
                         </a>

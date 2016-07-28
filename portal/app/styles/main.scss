@@ -498,7 +498,9 @@ Landing
 }
 
 .how-this-works {
-  width: 80%;
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
 
   .flow {
     div {
@@ -549,6 +551,13 @@ Landing
   h2 {
     margin-top: 0;
     font-size: 3em;
+  }
+}
+
+.query-buttons {
+  button {
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
   }
 }
 
@@ -616,7 +625,7 @@ Landing
 }
 
 .sql-data-section {
-  max-height: 60vh;
+  max-height: 100vh;
 }
 
 /* Custom page header */

@@ -1,3 +1,7 @@
+/*
+
+*/
+
 var scrollSection = new Vue({
   el: "#encr-section",
   data: {

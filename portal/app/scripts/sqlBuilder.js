@@ -169,12 +169,18 @@ class Query {
       return ' ' + words.join(' ') + ' ';
     }
 
+    console.log(modifier);
+
     words = words.map((w) => {
       if(keyWords.some((kw) => w.includes(kw)))
         return w;
+      else if(modifier == "SELECT" && w.includes("("))
+        return w.replace(/\((.+)\)/, '(`$1`)')
       else
         return '`' + w + '`';
     });
+
+    console.log(words.join(' '));
 
     return ' ' + words.join(' ') + ' ';
   }
@@ -276,7 +282,7 @@ var QueryBuilder = Vue.extend({
         return;
       }
 
-      var sqlString = this.currentQuery.verb + Query.cleanInputStrings(this.currentQuery.verbValue);
+      var sqlString = this.currentQuery.verb + Query.cleanInputStrings(this.currentQuery.verbValue, this.currentQuery.verb);
 
       this.currentQuery.modifiers.forEach((val, index) => {
         if(this.currentQuery.values[index].length == 0) {
