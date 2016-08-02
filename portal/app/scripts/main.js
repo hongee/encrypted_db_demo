@@ -62,7 +62,7 @@ var fadeInNav2 = new ScrollMagic.Scene({triggerElement: '#encr-section', duratio
 //// Anon
 var movingTaxi = new ScrollMagic.Scene({triggerElement: 'div[data-anon-ani="1"]', duration: '60%', offset: 200})
           .setTween('#moving-taxi', {autoAlpha: 0, scaleX: 2, scaleY: 2})
-          .on('start', function() {   $("#license-no")[0].innerText = "3T77"; })
+          .on('start', function() {   $('#license-no')[0].innerText = '3T77'; })
           .addTo(controller);
 
 var license = new ScrollMagic.Scene({triggerElement: 'div[data-anon-ani="1"]', duration: '30%', offset: 300})
@@ -118,8 +118,8 @@ function animateEncryption() {
 
   isAnimating = true;
 
-  var $license = $("#license-no")[0];
-  $license.innerText = "3T77";
+  var $license = $('#license-no')[0];
+  $license.innerText = '3T77';
   var finalArray = ['c','8','c','c','0','3','3','4','8'];
   var transformCounts = new Array(finalArray.length).fill(0);
   var textArray = $license.innerText.split('');
@@ -164,9 +164,9 @@ function animateEncryption() {
 }
 
 function initMd5Table() {
-  var table = "";
+  var table = '';
   for (var i = 0; i < 100; i++) {
-    var vl = Math.round(Math.random() * 10) + "" + Math.random().toString(36).substring(2,3) + Math.round(Math.random() * 10) + Math.round(Math.random() * 10);
+    var vl = Math.round(Math.random() * 10) + '' + Math.random().toString(36).substring(2,3) + Math.round(Math.random() * 10) + Math.round(Math.random() * 10);
     vl = vl.toUpperCase();
     var md5 = CryptoJS.MD5(vl).toString().substring(0,9);
 
@@ -178,7 +178,7 @@ function initMd5Table() {
       </tr>
     `
   }
-  $("#table-wrapper tbody").append(table);
+  $('#table-wrapper tbody').append(table);
 };
 
 initMd5Table();

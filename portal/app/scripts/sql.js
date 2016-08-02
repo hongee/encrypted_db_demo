@@ -1,10 +1,10 @@
 const SqlButtons = {
-  "All Taxi Data": 'SELECT * FROM `trip_data` LIMIT 10 OFFSET 0;',
-  "Longest Rides": 'SELECT `medallion`, `trip_time_in_secs`, `trip_distance` FROM `trip_data` ORDER BY `trip_time_in_secs` DESC LIMIT 10 OFFSET 0;',
-  "Unique Taxi Drivers": 'SELECT COUNT(DISTINCT(`medallion`)) FROM `trip_data`;',
-  "Average Passenger Count": 'SELECT SUM(`passenger_count`), COUNT(*) FROM `trip_data`;',
-  "Trips with Ratings > 1": 'SELECT `medallion`, `trip_time_in_secs`, `trip_distance`, `rate_code`, `passenger_count` FROM `trip_data` WHERE `rate_code`>1 ORDER BY `rate_code` DESC LIMIT 10 OFFSET 0;',
-  "Pick Ups in Manhattan": 'SELECT `medallion`, `pickup_longitude`, `pickup_latitude`, `trip_time_in_secs`, `trip_distance` FROM `trip_data` WHERE `pickup_latitude` > 40748000 AND'+
+  'All Taxi Data': 'SELECT * FROM `trip_data` LIMIT 10 OFFSET 0;',
+  'Longest Rides': 'SELECT `medallion`, `trip_time_in_secs`, `trip_distance` FROM `trip_data` ORDER BY `trip_time_in_secs` DESC LIMIT 10 OFFSET 0;',
+  'Unique Taxi Drivers': 'SELECT COUNT(DISTINCT(`medallion`)) FROM `trip_data`;',
+  'Average Passenger Count': 'SELECT SUM(`passenger_count`), COUNT(*) FROM `trip_data`;',
+  'Trips with Ratings > 1': 'SELECT `medallion`, `trip_time_in_secs`, `trip_distance`, `rate_code`, `passenger_count` FROM `trip_data` WHERE `rate_code`>1 ORDER BY `rate_code` DESC LIMIT 10 OFFSET 0;',
+  'Pick Ups in Manhattan': 'SELECT `medallion`, `pickup_longitude`, `pickup_latitude`, `trip_time_in_secs`, `trip_distance` FROM `trip_data` WHERE `pickup_latitude` > 40748000 AND'+
                                              '`pickup_latitude` < 40749000;'
 }
 
@@ -12,7 +12,7 @@ class Entry {
   constructor(plainSql, data) {
     this.plainSql = hljs.highlightAuto(plainSql).value;
     this.data = data ? data : [];
-    this.encrSql = "";
+    this.encrSql = '';
     this.encrData = [];
 
     getEncrSql(plainSql)
@@ -35,7 +35,7 @@ function getEncrSql(sql) {
      .then(function (res) {
         console.log(res);
         if(!res.query) {
-          console.log("no data received. repolling in 100ms...");
+          console.log('no data received. repolling in 100ms...');
           setTimeout(keepCalling, 100);
         } else {
           defer.resolve(res);
@@ -130,7 +130,7 @@ function previousInQueryHistory() {
 }
 
 var sandboxSection = new Vue({
-  el: "#temp-db-sandbox",
+  el: '#temp-db-sandbox',
   data: {
     tables: [],
     loading: false,

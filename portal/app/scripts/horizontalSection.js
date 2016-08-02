@@ -3,14 +3,14 @@
 */
 
 var scrollSection = new Vue({
-  el: "#encr-section",
+  el: '#encr-section',
   data: {
     currentIndex: 0,
-    totalItems: $(".horizontal-item").length
+    totalItems: $('.horizontal-item').length
   },
   methods: {
     goTo: function(e) {
-      var $scrollWrap = $(this.$el).find(".horizontal-scroll");
+      var $scrollWrap = $(this.$el).find('.horizontal-scroll');
       var $el = $(e.target);
       var index = $el.data('index');
       if(index == this.currentIndex)

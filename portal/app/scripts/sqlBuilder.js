@@ -9,95 +9,95 @@ const ValueTypes = {
 }
 
 const ValueNames = {
-  "0": "<column1>,<column2>",
-  "1": "<table name>",
-  "2": "Condition",
-  "3": "Join Condition",
-  "4": "<table name> OR <table name> ( <column1>,<column2>,... )",
-  "5": "<column name> <INT | VARCHAR | DATE>", //finish possible types
-  "10": "Values"
+  '0': '<column1>,<column2>',
+  '1': '<table name>',
+  '2': 'Condition',
+  '3': 'Join Condition',
+  '4': '<table name> OR <table name> ( <column1>,<column2>,... )',
+  '5': '<column name> <INT | VARCHAR | DATE>', //finish possible types
+  '10': 'Values'
 }
 
 const Verbs = {
-  "SELECT": {
-    modifiers: ["FROM","INTO"],
+  'SELECT': {
+    modifiers: ['FROM','INTO'],
     accepts: ValueTypes.COLUMNS
   },
-  "INSERT INTO": {
-    modifiers: ["VALUES"],
+  'INSERT INTO': {
+    modifiers: ['VALUES'],
     accepts: ValueTypes.INSERT
   },
-  "UPDATE": {
-    modifiers: ["SET"],
+  'UPDATE': {
+    modifiers: ['SET'],
     accepts: ValueTypes.TABLES
   },
-  "DELETE FROM": {
-    modifiers: ["WHERE"],
+  'DELETE FROM': {
+    modifiers: ['WHERE'],
     accepts: ValueTypes.TABLES
   },
-  "ALTER TABLE": {
-    modifiers: ["ADD COLUMN", "DROP COLUMN"],
+  'ALTER TABLE': {
+    modifiers: ['ADD COLUMN', 'DROP COLUMN'],
     accepts: ValueTypes.TABLES
   }
 }
 
 const Aggregates = [];
 
-Object.defineProperty(Verbs, "SELECT DISTINCT", {
-  get: function() { return this["SELECT"] }
+Object.defineProperty(Verbs, 'SELECT DISTINCT', {
+  get: function() { return this['SELECT'] }
 });
 
 const Modifiers = {
-  "AND": {
-    modifiers: ["AND", "OR"],
+  'AND': {
+    modifiers: ['AND', 'OR'],
     accepts: ValueTypes.CONDITION
   },
-  "INTO": {
-    modifiers: ["FROM", "ORDER BY"],
+  'INTO': {
+    modifiers: ['FROM', 'ORDER BY'],
     accepts: ValueTypes.TABLES
   },
-  "WHERE": {
-    modifiers: ["AND", "OR", "ORDER BY"],
+  'WHERE': {
+    modifiers: ['AND', 'OR', 'ORDER BY'],
     accepts: ValueTypes.CONDITION
   },
-  "JOIN": {
-    modifiers: ["ON", "ORDER BY"],
+  'JOIN': {
+    modifiers: ['ON', 'ORDER BY'],
     accepts: ValueTypes.TABLES
   },
-  "ON": {
-    modifiers: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "ORDER BY"],
+  'ON': {
+    modifiers: ['INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'FULL JOIN', 'ORDER BY'],
     accepts: ValueTypes.JOIN_CONDITION
   },
-  "FROM": {
-    modifiers: ["WHERE" ,"INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "ORDER BY"],
+  'FROM': {
+    modifiers: ['WHERE' ,'INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'FULL JOIN', 'ORDER BY'],
     accepts: ValueTypes.TABLES
   },
-  "ORDER BY": {
+  'ORDER BY': {
     modifiers: [],
     accepts: ValueTypes.COLUMNS
   },
-  "SET": {
-    modifiers: ["WHERE"],
+  'SET': {
+    modifiers: ['WHERE'],
     accepts: ValueTypes.UNRESTRICTED
   },
-  "VALUES": {
+  'VALUES': {
     modifiers: [],
     accepts: ValueTypes.UNRESTRICTED
   },
-  "ADD COLUMN": {
+  'ADD COLUMN': {
     modifiers: [],
     accepts: ValueTypes.ADD_COLUMN
   },
-  "DROP COLUMN": {
+  'DROP COLUMN': {
     modifiers: [],
     accepts: ValueTypes.COLUMNS
   }
 }
 
-Modifiers["FROM"].modifiers.forEach(function(term) {
-  if(term.includes("JOIN")) {
+Modifiers['FROM'].modifiers.forEach(function(term) {
+  if(term.includes('JOIN')) {
     Object.defineProperty(Modifiers, term, {
-      get: function() { return this["JOIN"] }
+      get: function() { return this['JOIN'] }
     });
   }
 });
@@ -108,10 +108,10 @@ var AutoComplete = [];
 //TODO: Refactor this
 class Query {
   constructor(verb) {
-    this.verb = verb ? verb : "SELECT";
-    this.verbValue = "";
-    this.modifiers = [""];
-    this.values = [""];
+    this.verb = verb ? verb : 'SELECT';
+    this.verbValue = '';
+    this.modifiers = [''];
+    this.values = [''];
     this.setVerb(this.verb);
   }
 
@@ -125,9 +125,9 @@ class Query {
 
   setVerb(verb) {
     this.verb = verb;
-    this.verbValue = "";
+    this.verbValue = '';
     this.modifiers = [Verbs[verb].modifiers[0]];
-    this.values = [""];
+    this.values = [''];
   }
 
   setModifier(modifier, index) {
@@ -138,7 +138,7 @@ class Query {
     var nextModifier = Modifiers[modifier].modifiers[0];
     if(nextModifier) {
       this.modifiers.push(nextModifier);
-      this.values.push("");
+      this.values.push('');
     }
   }
 
@@ -147,7 +147,7 @@ class Query {
       var nextModifier = Modifiers[modifier].modifiers[0];
       if(nextModifier) {
         this.modifiers.push(nextModifier);
-        this.values.push("");
+        this.values.push('');
       }
     }
   }
@@ -174,7 +174,7 @@ class Query {
     words = words.map((w) => {
       if(keyWords.some((kw) => w.includes(kw)))
         return w;
-      else if(modifier == "SELECT" && w.includes("("))
+      else if(modifier == 'SELECT' && w.includes('('))
         return w.replace(/\((.+)\)/, '(`$1`)')
       else
         return '`' + w + '`';
@@ -235,7 +235,7 @@ var QueryBuilder = Vue.extend({
   </div>
   `,
   created: function() {
-    var queries = localStorage.getItem("saved_queries");
+    var queries = localStorage.getItem('saved_queries');
     if(!queries) {
       this.newQuery();
     } else {
@@ -263,8 +263,8 @@ var QueryBuilder = Vue.extend({
 
   },
   watch: {
-    "currentQuery.modifiers": Query.updateAutocomplete,
-    "currentQuery.verb": Query.updateAutocomplete
+    'currentQuery.modifiers': Query.updateAutocomplete,
+    'currentQuery.verb': Query.updateAutocomplete
   },
   methods: {
     accepts: Query.accepts,
@@ -278,7 +278,7 @@ var QueryBuilder = Vue.extend({
       //EXTREMELY DANGEROUS TO DEPLOY THIS IN THE WILD
       //EVEN WITH AN ENCRYPTED DATABASE
       if(this.currentQuery.verbValue.length == 0) {
-        console.log("Incomplete SQL query!");
+        console.log('Incomplete SQL query!');
         return;
       }
 
@@ -287,7 +287,7 @@ var QueryBuilder = Vue.extend({
       this.currentQuery.modifiers.forEach((val, index) => {
         if(this.currentQuery.values[index].length == 0) {
           if(index != (this.currentQuery.modifiers.length-1) || index == 0) {
-            console.log("Incomplete SQL query!");
+            console.log('Incomplete SQL query!');
           }
           return;
         } else {

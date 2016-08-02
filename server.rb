@@ -45,15 +45,6 @@ if ARGV[0] != 'live'
   set :public_folder, File.dirname(__FILE__) + '/portal/app'
   use Rack::TryStatic, :root => 'portal/.tmp', :urls => %w[/]
   use Rack::TryStatic, :root => 'portal', :urls => %w[/]
-else
-  puts 'Running Server in Production'.yellow
-  puts 'Building production setup...'
-  Dir.chdir("portal") do
-    system "gulp build"
-  end
-
-
-  set :public_folder, File.dirname(__FILE__) + 'portal/dist'
 end
 
 ## Config ##
